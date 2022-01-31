@@ -1,7 +1,8 @@
+import imp
 from multiprocessing import context
 from django.shortcuts import render
 from django.http import HttpResponse
-
+from .models import Project
 projectsList = [
     {
         'id':"1",
@@ -21,14 +22,12 @@ projectsList = [
 ]
 
 def projects(request):
-    msg = "Hello, you are on the projects page"
-    number = 12
-    context = {'message': msg , 'number' : number , 'projects' : projectsList}
+    projects = Project.objects.all()
+    context = {'projects' : projects}
     return render(request, 'projects/projects.html', context)
 
 def project(request, pk):
-    projectsObj = None
-    for i in projectsList:
-        if i['id'] == pk:
-            projectsObj = i
-    return render(request, 'projects/single-project.html', {'project' : projectsObj})
+    projectObj = Project.objects.get(id=pk)
+    # tags = projectObj
+    print(projectObj , "xxxxxxxxxxxxxxxxxx")
+    return render(request, 'projects/single-project.html', {'project' : projectObj})
