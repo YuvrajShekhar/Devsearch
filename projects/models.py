@@ -3,9 +3,11 @@ from tkinter import CASCADE
 from turtle import title
 from django.db import models
 import uuid
+from users.models import Profile
 
 # Create your models here.
 class Project(models.Model):
+    owner = models.ForeignKey(Profile,null=True, blank=True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=2000)
     description = models.TextField(null=True, blank=True)
     featured_image = models.ImageField(null=True, blank=True, default="default.jpg")
